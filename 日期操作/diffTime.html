@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+
+</html>
+<script>
+    function diffTime(d1, d2) {
+        d1 = new Date(d1.replace(/-/g, '/')) //结束时间
+        d2 = new Date(d2.replace(/-/g, '/')) //开始时间
+        if (d1.getTime() < d2.getTime()) {
+            console.log('结束日期不能小于开始时间')
+            return '结束日期不能小于开始时间'
+        }
+        var Y1 = d1.getFullYear() // 结束年份
+        var Y2 = d2.getFullYear() // 开始年份
+        var M1 = d1.getMonth() + 1 // 结束月份
+        var M2 = d2.getMonth() + 1 // 开始月份
+        var D1 = d1.getDate() // 结束日期
+        var D2 = d2.getDate() // 开始日期
+        var M1_days = new Date(Y1, M1, 0).getDate() // 结束时间当月已过的天数
+        var M2_days = new Date(Y2, M2, 0).getDate() // 开始时间当月经过的天数
+        var obj = {} // 结果存储器
+        var year = Y1 - Y2 - 1 // 相差整年数
+        if (year < 0) {
+            var month = M1 - M2 - 1  // 相差整月数(同年)
+        } else {
+            var month = M1 - 1 + 12 - M2 // 相差整月数(非同年)
+        }
+        var diffDays = D1 + (M2_days - D2) // 相差总天数
+        if (diffDays >= M2_days) {
+            month = month + 1
+            var day = diffDays - M2_days
+        } else {
+            var day = diffDays
+        }
+        year += Math.floor(month / 12)
+        if (year < 0) {
+            year = 0
+        }
+        month = month % 12
+        obj.year = year
+        obj.month = month
+        obj.day = day
+        console.log(obj)
+        console.log('相差' + obj.year + '年' + obj.month + '月' + obj.day + '日')
+        return obj
+    }
+    diffTime('2019-10-19', '2019-10-1')
+    diffTime('2019-10-19', '2019-5-14')
+    diffTime('2019-10-19', '2018-10-1')
+    diffTime('2019-10-19', '2018-10-19')
+    diffTime('2019-10-19', '2017-5-4')
+</script>
